@@ -49,6 +49,12 @@ def extract_weather_data(html_content):
     return data
 
 
+def save_to_txt(data):
+    with open('weather.txt', 'w') as f:
+        for city, temp, condition in data:
+            f.write(f"{city}\n{temp}\n{condition}\n\n")
+
+
 if __name__ == '__main__':
     page_url = "https://world-weather.info/"
     
@@ -59,3 +65,6 @@ if __name__ == '__main__':
     if weather_html_content:
         # get the weather data
         weather_data = extract_weather_data(weather_html_content)
+        
+        # Save the weather data to a text file
+        save_to_txt(weather_data)
