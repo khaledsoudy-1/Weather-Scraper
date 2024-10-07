@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import re
+from tabulate import tabulate
 
 
 def fetch_weather_page(url):
@@ -45,14 +46,22 @@ def extract_weather_data(html_content):
     weather_conditions = weather_table.select('span.tooltip')
     conditions = [condition['title'] for condition in weather_conditions]
     
-    data = zip(city_names, temps, conditions)
+    data = [list(item) for item in zip(city_names, temps, conditions)]
     return data
 
 
-def save_to_txt(data):
-    with open('weather.txt', 'w') as f:
-        for city, temp, condition in data:
-            f.write(f"{city}\n{temp}\n{condition}\n\n")
+def save_to_txt_table(data):
+    if not data:
+        print("No data to save!")
+        return
+    
+    headers = ["City", "Temperature (℃)", "Condition"]
+    colalign = ["left", "center", "left"]
+    
+    table = tabulate(data, headers=headers, tablefmt="fancy_grid", colalign=colalign)
+    
+    with open('weather.txt', 'w', encoding='utf-8') as f:
+        f.write(table)
 
 
 if __name__ == '__main__':
@@ -67,4 +76,4 @@ if __name__ == '__main__':
         weather_data = extract_weather_data(weather_html_content)
         
         # Save the weather data to a text file
-        save_to_txt(weather_data)
+        save_to_txt_table(weather_data)
