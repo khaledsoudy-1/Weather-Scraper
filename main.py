@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from tabulate import tabulate
+from datetime import date
 
 
 def fetch_weather_page(url):
@@ -50,6 +51,12 @@ def extract_weather_data(html_content):
     return data
 
 
+def get_today_date():
+    today = date.today()
+    
+    return today.strftime("%B %d, %Y")
+
+
 def save_to_txt_table(data):
     if not data:
         print("No data to save!")
@@ -57,11 +64,15 @@ def save_to_txt_table(data):
     
     headers = ["City", "Temperature (℃)", "Condition"]
     colalign = ["left", "center", "left"]
-    
     table = tabulate(data, headers=headers, tablefmt="fancy_grid", colalign=colalign)
     
     with open('weather.txt', 'w', encoding='utf-8') as f:
-        f.write(table)
+        divider = "=" * 40
+        f.write(f"{divider}\n")
+        f.write(f"       Popular Cities Forecast\n")
+        f.write(f"{divider}\n\n")
+        f.write(f"Date: {get_today_date()}\n\n")
+        f.write(f"{table}\n")
 
 
 if __name__ == '__main__':
