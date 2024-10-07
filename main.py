@@ -55,7 +55,7 @@ if __name__ == '__main__':
     # Fetch weather page content
     weather_html_content = fetch_weather_page(page_url)
     
-    # get the weather data
-    weather_data = extract_weather_data(weather_html_content)
-    
-    
+    # Check if page content was fetched successfully
+    if weather_html_content:
+        # get the weather data
+        weather_data = extract_weather_data(weather_html_content)
