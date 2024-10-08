@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import re
 from tabulate import tabulate
 from datetime import date
+import json
 
 
 def fetch_weather_page(url):
@@ -75,6 +76,23 @@ def save_to_txt_table(data):
         f.write(f"{table}\n")
 
 
+def save_to_json(data):
+    if not data:
+        print("No data to save!")
+        return
+    
+    cities = [{"city": city, "temp": temp, "condition": condition} for city, temp, condition in data]
+    
+    json_data = {
+        "Title": "Popular Cities Forecast",
+        "Date": get_today_date(),
+        "Cities": cities
+    }
+    
+    with open('weather.json', 'w') as f:
+        json.dump(json_data, f, indent=3, ensure_ascii=False)
+
+
 if __name__ == '__main__':
     page_url = "https://world-weather.info/"
     
@@ -88,3 +106,6 @@ if __name__ == '__main__':
         
         # Save the weather data to a text file
         save_to_txt_table(weather_data)
+        
+        # Save the weather data to a JSON file
+        save_to_json(weather_data)
