@@ -7,6 +7,8 @@ import json
 
 
 def fetch_weather_page(url):
+    """Fetches the HTML content of the specified weather page."""
+    
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
         'Cookie': 'celsius=1'
@@ -30,6 +32,8 @@ def fetch_weather_page(url):
 
 
 def extract_weather_data(html_content):
+    """Extracts weather data from the provided HTML content."""
+    
     soup = BeautifulSoup(html_content, 'lxml')
     
     # Create an object for the target weather data
@@ -53,12 +57,15 @@ def extract_weather_data(html_content):
 
 
 def get_today_date():
+    """Gets today's date formatted as 'Month Day, Year'."""
     today = date.today()
     
     return today.strftime("%B %d, %Y")
 
 
 def save_to_txt_table(data):
+    """Saves the weather data to a text file in a table format."""
+    
     if not data:
         print("No data to save!")
         return
@@ -74,9 +81,13 @@ def save_to_txt_table(data):
         f.write(f"{divider}\n\n")
         f.write(f"Date: {get_today_date()}\n\n")
         f.write(f"{table}\n")
+    
+    print("\nWeather data saved to 'weather.txt'.")
 
 
 def save_to_json(data):
+    """Saves the weather data to a JSON file."""
+    
     if not data:
         print("No data to save!")
         return
@@ -92,8 +103,13 @@ def save_to_json(data):
     with open('weather.json', 'w') as f:
         json.dump(json_data, f, indent=3, ensure_ascii=False)
 
+    print("\nWeather data saved to 'weather.json'.")
+
+
 
 def weather_scraper():
+    """Main function to run the weather scraper script."""
+    
     page_url = "https://world-weather.info/"
     
     # Fetch weather page content
