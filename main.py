@@ -93,7 +93,7 @@ def save_to_json(data):
         json.dump(json_data, f, indent=3, ensure_ascii=False)
 
 
-if __name__ == '__main__':
+def weather_scraper():
     page_url = "https://world-weather.info/"
     
     # Fetch weather page content
@@ -109,3 +109,7 @@ if __name__ == '__main__':
         
         # Save the weather data to a JSON file
         save_to_json(weather_data)
+
+
+if __name__ == '__main__':
+    weather_scraper()
